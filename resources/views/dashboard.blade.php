@@ -45,28 +45,28 @@
             </div>
             <div class="bg-white p-4 rounded-xl shadow">
                 <h2 class="font-semibold text-lg mb-2">Transaksi Akhir</h2>
-                <table class="w-full text-sm text-left">
+                <table class="w-full text-sm text-left ">
                     <thead class="bg-purple-100 text-purple-700">
                         <tr>
-                            <th class="p-2">Item</th>
-                            <th class="p-2">%</th>
-                            <th class="p-2">Berat</th>
-                            <th class="p-2">Harga</th>
-                            <th class="p-2">Kode</th>
-                            <th class="p-2">/Gr</th>
-                            <th class="p-2">Ket</th>
+                            <th class="p-2 border border-purple-700">Item</th>
+                            <th class="p-2 border border-purple-700">%</th>
+                            <th class="p-2 border border-purple-700">Berat</th>
+                            <th class="p-2 border border-purple-700">Harga</th>
+                            <th class="p-2 border border-purple-700">Kode</th>
+                            <th class="p-2 border border-purple-700">/Gr</th>
+                            <th class="p-2 border border-purple-700">Ket</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($transaksi ?? [] as $t)
                         <tr class="border-b">
-                            <td class="p-2">{{ $t['item'] }}</td>
-                            <td class="p-2">{{ $t['persen'] }}%</td>
-                            <td class="p-2">{{ $t['berat'] }} Gr</td>
-                            <td class="p-2">Rp {{ number_format($t['harga']) }}</td>
-                            <td class="p-2">{{ $t['kode'] }}</td>
-                            <td class="p-2">Rp {{ number_format($t['pergram']) }}</td>
-                            <td class="p-2">{{ $t['ket'] }}</td>
+                            <td class="p-2 border border-gray-400">{{ $t['item'] }}</td>
+                            <td class="p-2 border border-gray-400">{{ $t['persen'] }}%</td>
+                            <td class="p-2 border border-gray-400">{{ $t['berat'] }} Gr</td>
+                            <td class="p-2 border border-gray-400">Rp {{ number_format($t['harga']) }}</td>
+                            <td class="p-2 border border-gray-400">{{ $t['kode'] }}</td>
+                            <td class="p-2 border border-gray-400">Rp {{ number_format($t['pergram']) }}</td>
+                            <td class="p-2 border border-gray-400">{{ $t['ket'] }}</td>
                         </tr>
                         @empty
                         <tr>
@@ -88,19 +88,19 @@
                 <div class="overflow-x-auto">
                     <table class="min-w-full border-collapse text-sm text-gray-800">
                         <thead>
-                            <tr class="text-left border-b border-gray-200">
-                                <th class="py-2 px-4">Kadar</th>
-                                <th class="py-2 px-4">Max</th>
-                                <th class="py-2 px-4">Min</th>
+                            <tr class="text-left bg-gray-200">
+                                <th class="py-2 px-4 border border-gray-400">Kadar</th>
+                                <th class="py-2 px-4 border border-gray-400">Max</th>
+                                <th class="py-2 px-4 border border-gray-400">Min</th>
 
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             @forelse ($pricelists ?? [] as $item)
                                 <tr>
-                                    <td class="py-2 px-4">{{ $item['kadar'] ?? '-' }}K</td>
-                                    <td class="py-2 px-4">Rp. {{ number_format($item['harga_max'] ?? 0, 0, ',', '.') }}</td>
-                                    <td class="py-2 px-4">Rp. {{ number_format($item['harga_min'] ?? 0, 0, ',', '.') }}</td>
+                                    <td class="py-2 px-4 border border-gray-400">{{ $item['kadar'] ?? '-' }}K</td>
+                                    <td class="py-2 px-4 border border-gray-400">Rp. {{ number_format($item['harga_max'] ?? 0, 0, ',', '.') }}</td>
+                                    <td class="py-2 px-4 border border-gray-400">Rp. {{ number_format($item['harga_min'] ?? 0, 0, ',', '.') }}</td>
                                 </tr>
                             @empty
                                 <tr>

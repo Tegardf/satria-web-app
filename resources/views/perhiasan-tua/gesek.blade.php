@@ -39,22 +39,22 @@
                     </div>
                 </div>
 
-                <table class="min-w-full border-collapse text-sm text-gray-800">
+                <table class="min-w-full border-collapse text-sm text-gray-800 border-gray-300">
                     <thead>
-                        <tr class="border-b">
-                            <th class="py-2 px-4">Nama</th>
-                            <th class="py-2 px-4">Masuk</th>
-                            <th class="py-2 px-4">Keluar</th>
-                            <th class="py-2 px-4"></th>
+                        <tr class="text-left bg-gray-200">
+                            <th class="py-2 px-4 border">Nama</th>
+                            <th class="py-2 px-4 border">Masuk</th>
+                            <th class="py-2 px-4 border">Keluar</th>
+                            <th class="py-2 px-4 border"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($records as $item)
                             <tr>
-                                <td class="py-2 px-4">{{ $item->nama }}</td>
-                                <td class="py-2 px-4">Rp. {{ number_format($item->masuk, 0, ',', '.') }}</td>
-                                <td class="py-2 px-4">Rp. {{ number_format($item->keluar, 0, ',', '.') }}</td>
-                                <td class="py-2 px-4 text-right">
+                                <td class="py-2 px-4 border">{{ $item->nama }}</td>
+                                <td class="py-2 px-4 border">Rp. {{ number_format($item->masuk, 0, ',', '.') }}</td>
+                                <td class="py-2 px-4 border">Rp. {{ number_format($item->keluar, 0, ',', '.') }}</td>
+                                <td class="py-2 px-4 border text-right">
                                     <form method="POST" action="{{ route('perhiasan.tua.gesek.destroy', $item['id']) }}">
                                         @csrf
                                         @method('DELETE')
@@ -68,20 +68,19 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr><td colspan="3" class="text-center text-gray-500">No Data</td></tr>
+                            <tr><td colspan="4" class="text-center text-gray-500 border">No Data</td></tr>
                         @endforelse
                     </tbody>
                     <tfoot>
                         <tr class="bg-yellow-100 font-semibold">
-                            <td class="py-2 px-4 italic">Jumlah</td>
-                            <td class="py-2 px-4 text-purple-600">
+                            <td class="py-2 px-4 italic border">Jumlah</td>
+                            <td class="py-2 px-4 text-purple-600 border">
                                 Rp. {{ number_format($bankSums[$bank]['total_masuk'], 0, ',', '.') }}
                             </td>
-                            <td class="py-2 px-4 text-purple-600">
+                            <td class="py-2 px-4 text-purple-600 border">
                                 Rp. {{ number_format($bankSums[$bank]['total_keluar'], 0, ',', '.') }}
                             </td>
-                            <th class="py-2 px-4"></th>
-
+                            <th class="py-2 px-4 border"></th>
                         </tr>
                     </tfoot>
                 </table>

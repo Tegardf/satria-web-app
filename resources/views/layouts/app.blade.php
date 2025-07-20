@@ -66,14 +66,14 @@
                     </div>
                 </a>
                 <a href="{{ route('input.produk', ['perhiasan_id' => 1, 'produk_id' => 1])}}" class="flex flex-col group ">
-                    <div class="bg-perhiasan-tua h-3 w-full">
+                    <div class="{{request('perhiasan_id') == 1 ? 'bg-perhiasan-tua' : 'bg-perhiasan-muda'}} h-3 w-full">
                         <div class="bg-primary-700 h-3 w-full group-hover:rounded-ee-full {{ Route::is('input.produk') ? 'rounded-ee-full' : '' }}"></div>
                     </div>
-                    <div class="flex flex-row justify-start ps-4 py-2 rounded-s-3xl items-center gap-3 group-hover:bg-perhiasan-tua group-hover:text-neutral-900  text-neutral-200 {{ Route::is('input.produk') ? 'bg-perhiasan-tua text-neutral-900' : '' }}">
+                    <div class="flex flex-row justify-start ps-4 py-2 rounded-s-3xl items-center gap-3 {{request('perhiasan_id') == 2 ? 'group-hover:bg-perhiasan-muda' : 'group-hover:bg-perhiasan-tua'}}  group-hover:text-neutral-900  text-neutral-200 {{ Route::is('input.produk') ? (request('perhiasan_id') == 1 ? 'bg-perhiasan-tua text-neutral-900' : 'bg-perhiasan-muda text-neutral-900') : '' }}">
                         <img src="{{ asset('input-produk.svg') }}" alt="" class="w-9 h-9"> 
                         <h1 class="text-xl ">Input Produk</h1>
                     </div>
-                    <div class="bg-perhiasan-tua h-3 w-full">
+                    <div class="{{request('perhiasan_id') == 1 ? 'bg-perhiasan-tua' : 'bg-perhiasan-muda'}} h-3 w-full">
                         <div class="bg-primary-700 h-3 w-full group-hover:rounded-se-full {{ Route::is('input.produk') ? 'rounded-se-full' : '' }}"></div>
                     </div>
                 </a>

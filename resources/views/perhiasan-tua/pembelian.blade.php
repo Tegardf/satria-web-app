@@ -14,39 +14,38 @@
         <div class=" bg-white rounded-xl shadow-md p-6">
             <h2 class="text-xl font-semibold text-purple-800 mb-4">Pembelian</h2>
             <div class="overflow-x-auto">
-                <table class="min-w-full border-collapse text-sm text-gray-800">
+                <table class="min-w-full border-collapse text-sm text-gray-800 border-gray-300">
                     <thead>
-                        <tr class="text-left border-b border-gray-200">
-                            <th class="py-2 px-4">No</th>
-                            <th class="py-2 px-4">Item</th>
-                            <th class="py-2 px-4">Nama Barang</th>
-                            <th class="py-2 px-4">Kedar</th>
-                            <th class="py-2 px-4">Berat</th>
-                            <th class="py-2 px-4">Harga</th>
-                            <th class="py-2 px-4">Kode</th>
-                            <th class="py-2 px-4">/Gr Beli</th>
-                            <th class="py-2 px-4">/Gr Jual</th>
-                            <th class="py-2 px-4">Keterangan</th>
-                            <th class="py-2 px-4">Sales</th>
-                            <th class="p-2">Aksi</th>
-
+                        <tr class="text-left bg-gray-200">
+                            <th class="py-2 px-4 border">No</th>
+                            <th class="py-2 px-4 border">Item</th>
+                            <th class="py-2 px-4 border">Nama Barang</th>
+                            <th class="py-2 px-4 border">Kadar</th>
+                            <th class="py-2 px-4 border">Berat</th>
+                            <th class="py-2 px-4 border">Harga</th>
+                            <th class="py-2 px-4 border">Kode</th>
+                            <th class="py-2 px-4 border">/Gr Beli</th>
+                            <th class="py-2 px-4 border">/Gr Jual</th>
+                            <th class="py-2 px-4 border">Keterangan</th>
+                            <th class="py-2 px-4 border">Sales</th>
+                            <th class="p-2 border">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @forelse ($pembelians ?? [] as $item)
                             <tr>
-                                <td class="py-2 px-4">{{($items->currentPage() - 1) * $items->perPage() + $loop->iteration }}</td>
-                                <td class="py-2 px-4">{{ $item['perhiasan'] }}</td>
-                                <td class="py-2 px-4">{{ $item['nama_barang'] }}</td>
-                                <td class="py-2 px-4">{{ $item['kadar'] }}%</td>
-                                <td class="py-2 px-4">{{ number_format($item['berat'], 3) }} Gr</td>
-                                <td class="py-2 px-4">Rp. {{ number_format($item['harga'], 0, ',', '.') }}</td>
-                                <td class="py-2 px-4">{{ $item['kode'] }}</td>
-                                <td class="py-2 px-4">Rp. {{ number_format($item['harga_per_gram_beli'], 0, ',', '.') }}</td>
-                                <td class="py-2 px-4">Rp. {{ number_format($item['harga_per_gram_jual'], 0, ',', '.') }}</td>
-                                <td class="py-2 px-4">{{ $item['keterangan'] }}</td>
-                                <td class="py-2 px-4">{{ $item['sales'] }}</td>
-                                <td class="p-2 flex flex-row gap-6 justify-center">
+                                <td class="py-2 px-4 border">{{($items->currentPage() - 1) * $items->perPage() + $loop->iteration }}</td>
+                                <td class="py-2 px-4 border">{{ $item['perhiasan'] }}</td>
+                                <td class="py-2 px-4 border">{{ $item['nama_barang'] }}</td>
+                                <td class="py-2 px-4 border">{{ $item['kadar'] }}%</td>
+                                <td class="py-2 px-4 border">{{ number_format($item['berat'], 3) }} Gr</td>
+                                <td class="py-2 px-4 border">Rp. {{ number_format($item['harga'], 0, ',', '.') }}</td>
+                                <td class="py-2 px-4 border">{{ $item['kode'] }}</td>
+                                <td class="py-2 px-4 border">Rp. {{ number_format($item['harga_per_gram_beli'], 0, ',', '.') }}</td>
+                                <td class="py-2 px-4 border">Rp. {{ number_format($item['harga_per_gram_jual'], 0, ',', '.') }}</td>
+                                <td class="py-2 px-4 border">{{ $item['keterangan'] }}</td>
+                                <td class="py-2 px-4 border">{{ $item['sales'] }}</td>
+                                <td class="p-2 flex flex-row gap-6 justify-center border">
                                     <button
                                         onclick="openEditModalPembelianTua(this)"
                                         data-id="{{ $item['id'] }}"
@@ -81,7 +80,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="10" class="text-center text-gray-500 py-4">Data Unavailable</td>
+                                <td colspan="12" class="text-center text-gray-500 py-4 border">Data Unavailable</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -89,14 +88,13 @@
                     @if(isset($pembelians) && $pembelians->count() > 0)
                     <tfoot>
                         <tr class="bg-yellow-100 font-semibold">
-                            <td colspan="4" class="py-2 px-4 italic">Jumlah</td>
-                            <td class="py-2 px-4 text-purple-600">{{ number_format($totalBerat , 3) }} Gr</td>
-                            <td class="py-2 px-4 text-purple-600">Rp. {{ number_format($totalHarga , 0, ',', '.') }}</td>
-                            <td colspan="2" class="py-2 px-4 text-purple-600">
+                            <td colspan="4" class="py-2 px-4 italic border">Jumlah</td>
+                            <td class="py-2 px-4 text-purple-600 border">{{ number_format($totalBerat , 3) }} Gr</td>
+                            <td class="py-2 px-4 text-purple-600 border">Rp. {{ number_format($totalHarga , 0, ',', '.') }}</td>
+                            <td colspan="2" class="py-2 px-4 text-purple-600 border">
                                 Rata / Gram: Rp. {{ number_format($rataHargaPerGram , 0, ',', '.') }}
                             </td>
-                            <td colspan="2"></td>
-                            <td colspan="2"></td>
+                            <td colspan="4" class="border"></td>
                         </tr>
                     </tfoot>
                     @endif

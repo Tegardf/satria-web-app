@@ -3,6 +3,11 @@
         <h2 class="font-bold text-3xl text-gray-800  leading-tight">Restock Produk</h2>
     </x-slot>
 
+    {{-- Flash Messages --}}
+    @if(session('success'))
+        <div id="flash-message" class="mb-4 p-3 bg-green-100 text-green-700 rounded">{{ session('success') }}</div>
+    @endif
+
     <div class="py-12 grid grid-cols-2 gap-6 w-full">
         @foreach ($grouped as $groupname => $restocks)
             <div class="col-span-1 w-full flex flex-col justify-between  bg-white rounded-xl shadow-md p-6">
@@ -11,25 +16,25 @@
                     <div class="overflow-x-auto">
                         <table class="min-w-full border-collapse text-sm text-gray-800">
                             <thead>
-                                <tr class="text-left border-b border-gray-200">
-                                    <th class="py-2 px-4">Model</th>
-                                    <th class="py-2 px-4">Berat/gr</th>
-                                    <th class="py-2 px-4">Ukuran</th>
-                                    <th class="py-2 px-4">Kedar</th>
-                                    <th class="py-2 px-4">Biji</th>
-                                    <th class="py-2 px-4"></th>
-                                    <th class="py-2 px-2"></th>
+                                <tr class="text-left ">
+                                    <th class="py-2 px-4 border border-gray-300 bg-gray-200">Model</th>
+                                    <th class="py-2 px-4 border border-gray-300 bg-gray-200">Berat/gr</th>
+                                    <th class="py-2 px-4 border border-gray-300 bg-gray-200">Ukuran</th>
+                                    <th class="py-2 px-4 border border-gray-300 bg-gray-200">Kadar</th>
+                                    <th class="py-2 px-4 border border-gray-300 bg-gray-200">Biji</th>
+                                    <th colspan="2" class="py-2 px-4"></th>
+
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100">
                                 @forelse ($restocks ?? [] as $restock)
                                     <tr>
-                                        <td class="py-2 px-4">{{ $restock['model'] ?? '-' }}</td>
-                                        <td class="py-2 px-4">{{ $restock['berat'] ?? '0.00' }}</td>
-                                        <td class="py-2 px-4">{{ $restock['ukuran'] ?? '-' }}</td>
-                                        <td class="py-2 px-4">{{ $restock['kadar'] ?? '0' }}%</td>
-                                        <td class="py-2 px-4">{{ $restock['jumlah'] ?? '0' }} Gr</td>
-                                        <td class="py-2 px-2">
+                                        <td class="py-2 px-4 border border-gray-300">{{ $restock['model'] ?? '-' }}</td>
+                                        <td class="py-2 px-4 border border-gray-300">{{ $restock['berat'] ?? '0.00' }}</td>
+                                        <td class="py-2 px-4 border border-gray-300">{{ $restock['ukuran'] ?? '-' }}</td>
+                                        <td class="py-2 px-4 border border-gray-300">{{ $restock['kadar'] ?? '0' }}%</td>
+                                        <td class="py-2 px-4 border border-gray-300">{{ $restock['jumlah'] ?? '0' }} Gr</td>
+                                        <td class="py-2 px-2 text-center">
                                             <input 
                                             data-id="{{ $restock->id }}"
                                             type="checkbox" 
@@ -37,7 +42,7 @@
                                             {{ $restock->status ? 'checked' : '' }}
                                             >
                                         </td>
-                                        <td class="py-2 px-4 text-right">
+                                        <td class="py-2 px-2 text-center ">
                                         <form method="POST" action="{{ route('restocks.destroy', $restock->id) }}" onsubmit="return confirm('Hapus item ini?')">
                                             @csrf
                                             @method('DELETE')
@@ -51,7 +56,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="text-center text-gray-500 py-4">Data Unavailable</td>
+                                        <td colspan="6" class="text-center text-gray-500 py-4 border border-gray-300">Data Unavailable</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -129,5 +134,11 @@
             document.getElementById('modal-' + group).classList.add('hidden');
             document.getElementById('modal-' + group).classList.remove('flex');
         }
+        setTimeout(() => {
+            const flash = document.getElementById('flash-message');
+            if (flash) {
+                flash.style.display = 'none';
+            }
+        }, 5000);
     </script>
 </x-app-layout>

@@ -58,9 +58,9 @@ class StockController extends Controller
             'berat_bersih' => 'required|numeric',
             'berat_kitir' => 'required|numeric',
             'pergram' => 'required|integer',
+            'rusak' => 'nullable|integer', 
             'real' => 'nullable|numeric',
         ]);
-
         $stock->update($data);
 
         return back()->with('success', 'Stock berhasil diupdate');

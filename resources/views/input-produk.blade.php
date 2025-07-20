@@ -1,7 +1,12 @@
-<x-app-layout class="bg-perhiasan-tua">
+<x-app-layout class="{{request('perhiasan_id') == 1 ? 'bg-perhiasan-tua' : 'bg-perhiasan-muda'}}">
     <x-slot name="header">
         <h2 class="font-bold text-3xl text-gray-800  leading-tight">Input Produk</h2>
     </x-slot>
+
+    {{-- Flash Messages --}}
+    @if(session('success'))
+        <div id="flash-message" class="mb-4 p-3 bg-green-100 text-green-700 rounded">{{ session('success') }}</div>
+    @endif
 
     <div class="py-12">
         <div class="w-full  ">
@@ -9,12 +14,12 @@
                 <form method="GET" action="{{ route('input.produk') }}" class="w-full">
                     <input type="hidden" name="perhiasan_id" value="1">
                     <input type="hidden" name="produk_id" value="{{request('produk_id')}}">
-                    <button class="text-center w-full text-secondary-800 ring-secondary-800 ring-2 active:bg-secondary-300 hover:bg-secondary-300 text-xl font-bold py-4 rounded-xl {{  request('perhiasan_id') == 1 ? 'bg-secondary-300':'bg-perhiasan-tua'}}">Perhiasan Tua</button>
+                    <button class="text-center w-full text-secondary-800 ring-secondary-800 ring-2 active:bg-secondary-300 hover:bg-secondary-300 text-xl font-bold py-4 rounded-xl {{  request('perhiasan_id') == 1 ? 'bg-secondary-300':'bg-secondary-200'}}">Perhiasan Tua</button>
                 </form>
                 <form method="GET" action="{{ route('input.produk') }}" class="w-full">
                     <input type="hidden" name="perhiasan_id" value="2">
                     <input type="hidden" name="produk_id" value="{{request('produk_id')}}">
-                    <button class="text-center w-full text-secondary-800 ring-secondary-800 ring-2 active:bg-secondary-300 hover:bg-secondary-300 text-xl font-bold py-4 rounded-xl {{  request('perhiasan_id') == 2 ? 'bg-secondary-300':'bg-perhiasan-tua'}}">Perhiasan Muda</button>
+                    <button class="text-center w-full text-secondary-800 ring-secondary-800 ring-2 active:bg-secondary-300 hover:bg-secondary-300 text-xl font-bold py-4 rounded-xl {{  request('perhiasan_id') == 2 ? 'bg-secondary-300':'bg-secondary-200'}}">Perhiasan Muda</button>
                 </form>
                 
             </div>
@@ -30,7 +35,7 @@
                     @foreach($produks as $p)
                         <li>
                             <a href="{{ route('input.produk', ['perhiasan_id' => request('perhiasan_id'), 'produk_id' => $p->id ]) }}"
-                                class="bg-white my-2 block px-4 py-2 text-lg text-center text-primary-800 hover:bg-primary-300 border-primary-800 border-2 rounded-xl"
+                                class="bg-white my-2 block px-4 py-2 text-lg text-center text-primary-800 hover:bg-primary-300 border-primary-800 border-2 rounded-xl {{ request()->get('produk_id') == $p->id ? 'hidden' : '' }}"
                                 @click="selected = '{{ $p->Jenis }}'; open = false;">
                                 {{ $p->jenis }}
                             </a>
@@ -50,8 +55,8 @@
 
                     <!-- Table -->
                     <div>
-                        <table class="w-full text-sm text-left border border-gray-300">
-                            <thead class="bg-gray-100 text-center">
+                        <table class="w-full text-sm text-left border border-gray-300 ">
+                            <thead class="bg-gray-200 text-center">
                                 <tr>
                                     <th class="border p-2">No</th>
                                     <th class="border p-2">Kode</th>
@@ -63,6 +68,7 @@
                                     <th class="border p-2">Berat Kitir</th>
                                     <th class="border p-2">Per Gram</th>
                                     <th class="border p-2">Real</th>
+                                    <th class="border p-2">Rusak</th>
                                     <th class="border p-2">Aksi</th>
                                 </tr>
                             </thead>
@@ -84,6 +90,8 @@
                                             <td class="border p-2">{{ $stock->berat_kitir }}</td>
                                             <td class="border p-2">Rp. {{ number_format($stock->pergram, 0, ',', '.') }}</td>
                                             <td class="border p-2">{{ $stock->real }}</td>
+                                            <td class="border p-2">{{ $stock->rusak }}</td>
+                                            </td>
                                             <td class="border p-2 flex flex-row gap-6 justify-center">
                                                 <button
                                                     onclick="openEditModal(this)"
@@ -95,6 +103,9 @@
                                                     data-berat-kotor="{{ $stock->berat_kotor }}"
                                                     data-berat-bersih="{{ $stock->berat_bersih }}"
                                                     data-berat-kitir="{{ $stock->berat_kitir }}"
+                                                    data-status="{{ $stock->rusak }}"
+                                                    data-pergram="{{ $stock->pergram }}"
+                                                    data-real="{{ $stock->real }}"
                                                     class="text-blue-600 hover:text-blue-800" title="Edit">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
                                                         viewBox="0 0 24 24" stroke="currentColor">
@@ -204,6 +215,9 @@
                                 <label>Real:</label>
                                 <input type="number" step="0.001" id="editReal" name="real" class="w-full mb-4 p-2 border rounded" required>
 
+                                <label>Rusak:</label>
+                                <input type="number" id="editStatus" name="rusak" class="w-full mb-4 p-2 border rounded" required>
+
                                 <div class="flex justify-end space-x-2">
                                     <button type="button" onclick="closeModal()" class="bg-gray-400 px-4 py-2 text-white rounded">Cancel</button>
                                     <button type="submit" class="bg-blue-600 px-4 py-2 text-white rounded">Update</button>
@@ -232,6 +246,7 @@
             document.getElementById('editBeratKitir').value = data.beratKitir;
             document.getElementById('editPerGram').value = data.pergram;
             document.getElementById('editReal').value = data.real;
+            document.getElementById('editStatus').value = data.status;
 
             // Set form action dynamically
             const baseUrl = @json(route('stock.update', ['stock' => '__ID__']));
@@ -244,6 +259,13 @@
         function closeModal() {
             document.getElementById('editModal').classList.add('hidden');
         }
+
+        setTimeout(() => {
+            const flash = document.getElementById('flash-message');
+            if (flash) {
+                flash.style.display = 'none';
+            }
+        }, 5000);
 
         
     </script>

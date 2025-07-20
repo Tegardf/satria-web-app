@@ -18,8 +18,8 @@
                 @foreach($produks as $p)
                     <li>
                         <button onclick="window.location.href='{{ route('perhiasan.muda.penjualanHarian',  ['id' => $p->id ]) }}'"
-                            class="w-full bg-white my-2 block px-4 py-2 text-lg text-center text-primary-800 hover:bg-primary-300 border-primary-800 border-2 rounded-xl"
-                            @click="selected = '{{ $p->Jenis }}'; open = false;">
+                            class="w-full bg-white my-2 block px-4 py-2 text-lg text-center text-primary-800 hover:bg-primary-300 border-primary-800 border-2 rounded-xl {{ request()->route('id') == $p->id ? 'hidden' : '' }}"
+                            @click="selected = '{{ $p->Jenis }}'; open = false;" >
                             {{ $p->jenis }}
                         </button>
                     </li>
@@ -31,45 +31,45 @@
             <div class="overflow-x-auto">
                 <table class="min-w-full border-collapse text-sm text-gray-800">
                     <thead>
-                        <tr class="text-left border-b border-gray-200">
-                            <th class="py-2 px-4">No</th>
-                            <th class="py-2 px-4">Item</th>
-                            <th class="py-2 px-4">Nama Barang</th>
-                            <th class="py-2 px-4">Kedar</th>
-                            <th class="py-2 px-4">Berat</th>
-                            <th class="py-2 px-4">Harga</th>
-                            <th class="py-2 px-4">Jumlah</th>
-                            <th class="py-2 px-4">Kode</th>
-                            <th class="py-2 px-4">Per Gram Beli</th>
-                            <th class="py-2 px-4">Per Gram Jual</th>
-                            <th class="py-2 px-4">Keterangan</th>
-                            <th class="py-2 px-4">Sales</th>
+                        <tr class="text-left bg-gray-200">
+                            <th class="py-2 px-4 border">No</th>
+                            <th class="py-2 px-4 border">Item</th>
+                            <th class="py-2 px-4 border">Nama Barang</th>
+                            <th class="py-2 px-4 border">Kadar</th>
+                            <th class="py-2 px-4 border">Berat</th>
+                            <th class="py-2 px-4 border">Harga</th>
+                            <th class="py-2 px-4 border">Jumlah</th>
+                            <th class="py-2 px-4 border">Kode</th>
+                            <th class="py-2 px-4 border">Per Gram Beli</th>
+                            <th class="py-2 px-4 border">Per Gram Jual</th>
+                            <th class="py-2 px-4 border">Keterangan</th>
+                            <th class="py-2 px-4 border">Sales</th>
 
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @forelse ($penjualans ?? [] as $item)
                             <tr>
-                                <td class="py-2 px-4">{{ ($penjualans->currentPage() - 1) * $penjualans->perPage() + $loop->iteration }}</td>
-                                <td class="py-2 px-4">{{ $item->stock->produk->jenis ?? '-' }}</td>
-                                <td class="py-2 px-4">{{ $item->stock->nama ?? '-' }}</td>
-                                <td class="py-2 px-4">{{ $item->stock->perhiasan->kadar ?? '-' }}%</td>
-                                <td class="py-2 px-4">{{ number_format($item->stock->berat_bersih ?? 0, 3) }} Gr</td>
-                                <td class="py-2 px-4">Rp. {{ number_format($item->harga_jual * $item->stock->berat_bersih ?? 0, 0, ',', '.') }}</td>
-                                <td class="py-2 px-4">{{ $item->jumlah_keluar ?? 0 }}</td>
-                                <td class="py-2 px-4">{{ $item->stock->kode ?? '-' }}</td>
-                                <td class="py-2 px-4">
+                                <td class="py-2 px-4 border">{{ ($penjualans->currentPage() - 1) * $penjualans->perPage() + $loop->iteration }}</td>
+                                <td class="py-2 px-4 border">{{ $item->stock->produk->jenis ?? '-' }}</td>
+                                <td class="py-2 px-4 border">{{ $item->stock->nama ?? '-' }}</td>
+                                <td class="py-2 px-4 border">{{ $item->stock->perhiasan->kadar ?? '-' }}%</td>
+                                <td class="py-2 px-4 border">{{ number_format($item->stock->berat_bersih ?? 0, 3) }} Gr</td>
+                                <td class="py-2 px-4 border">Rp. {{ number_format($item->harga_jual * $item->stock->berat_bersih ?? 0, 0, ',', '.') }}</td>
+                                <td class="py-2 px-4 border">{{ $item->jumlah_keluar ?? 0 }}</td>
+                                <td class="py-2 px-4 border">{{ $item->stock->kode ?? '-' }}</td>
+                                <td class="py-2 px-4 border">
                                     Rp. {{ number_format($item->stock->pergram ?? 0, 0, ',', '.') }}
                                 </td>
-                                <td class="py-2 px-4">
+                                <td class="py-2 px-4 border">
                                     Rp. {{ number_format($item->harga_jual ?? 0, 0, ',', '.') }}
                                 </td>
-                                <td class="py-2 px-4">{{ $item->keterangan ?? '-' }}</td>
-                                <td class="py-2 px-4">{{ $item->sales ?? '-' }}</td>
+                                <td class="py-2 px-4 border">{{ $item->keterangan ?? '-' }}</td>
+                                <td class="py-2 px-4 border">{{ $item->sales ?? '-' }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="10" class="text-center text-gray-500 py-4">Data Unavailable</td>
+                                <td colspan="10" class="text-center text-gray-500 py-4 border">Data Unavailable</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -77,18 +77,16 @@
                     @if(isset($penjualans) && $penjualans->count() > 0)
                     <tfoot>
                         <tr class="bg-yellow-100 font-semibold">
-                            <td colspan="4" class="py-2 px-4 italic">Jumlah</td>
-                            <td class="py-2 px-4 text-purple-600">{{ number_format($penjualans->sum('stock.berat_bersih') ?? 0, 3) }} Gr</td>
-                            <td class="py-2 px-4 text-purple-600">Rp. {{ number_format($penjualans->sum(fn($item) => $item->harga_jual * $item->stock->berat_bersih) ?? 0, 0, ',', '.') }}</td>
-                            <td colspan="2"></td>
+                            <td colspan="4" class="py-2 px-4 italic border">Jumlah</td>
+                            <td class="py-2 px-4 text-purple-600 border">{{ number_format($penjualans->sum('stock.berat_bersih') ?? 0, 3) }} Gr</td>
+                            <td colspan="3" class="py-2 px-4 text-purple-600 border">Rp. {{ number_format($penjualans->sum(fn($item) => $item->harga_jual * $item->stock->berat_bersih) ?? 0, 0, ',', '.') }}</td>
 
-                            <td colspan="1" class="py-2 px-4 text-purple-600">
+                            <td colspan="1" class="py-2 px-4 text-purple-600 border ">
                                 Rata / Gram: Rp. {{ number_format($penjualans->avg('stock.pergram') ?? 0, 0, ',', '.') }}
                             </td>
-                            <td colspan="1" class="py-2 px-4 text-purple-600">
+                            <td colspan="3" class="py-2 px-4 text-purple-600 border">
                                 Rata / Gram: Rp. {{ number_format($penjualans->avg('harga_jual') ?? 0, 0, ',', '.') }}
                             </td>
-                            <td colspan="2"></td>
                         </tr>
                     </tfoot>
                     @endif
@@ -107,44 +105,43 @@
                 <h2 class="text-xl font-semibold text-purple-800 mb-4">stock {{$selectedProduct->jenis}}</h2>
                 <div class="overflow-x-auto">
                     <table class="min-w-full border-collapse text-sm text-gray-800">
-                        <thead>
-                            <tr class="text-left border-b border-gray-200">
-                                <th class="py-2 px-4">keterangan</th>
-                                <th class="py-2 px-4">Qyt</th>
-                                <th class="py-2 px-4">Berat</th>
+                        <thead class="">
+                            <tr class="text-left border-b border-gray-200 bg-gray-200">
+                                <th class="py-2 border px-4">keterangan</th>
+                                <th class="py-2 border px-4">Qyt</th>
+                                <th class="py-2 border px-4">Berat</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
-                            @forelse ($stocks ?? [] as $item)
-                                <tr>
-                                    <td class="py-2 px-4">{{ $item['nama'] }}</td>
-                                    <td class="py-2 px-4">{{ $item['jumlah'] ?? '-' }}</td>
-                                    <td class="py-2 px-4">{{ number_format($item['berat_bersih'] ?? 0, 3) }} Gr</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3" class="text-center text-gray-500 py-4">Data Unavailable</td>
-                                </tr>
-                            @endforelse
+                            <tr>
+                                <td class="py-2 text-center border">Stock Awal</td>
+                                <td class="text-center border py-2">{{ $stockAwal }}</td>
+                                <td class="text-center border py-2">{{ number_format($beratStockAwal, 3, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 text-center border">Tambahan</td>
+                                <td class="text-center border py-2">{{ $tambahanQty }}</td>
+                                <td class="text-center border py-2">{{ number_format($tambahanBerat, 3, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 text-center border">Rusak</td>
+                                <td class="text-center border py-2">{{ $rusak }}</td>
+                                <td class="text-center border py-2">{{ number_format($rusakBerat, 3, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 text-center border">Terjual</td>
+                                <td class="text-center border py-2">{{ $terjual }}</td>
+                                <td class="text-center border py-2">{{ number_format($terjualBerat, 3, ',', '.') }}</td>
+                            </tr>
                         </tbody>
-
-                        @if(isset($stocks) && $stocks->count() > 0)
                         <tfoot>
-                            <tr class="bg-yellow-100 font-semibold">
-                                <td class="py-2 px-4 italic">Jumlah</td>
-                                <td class="py-2 px-4 text-purple-600">{{ $stocks->sum('jumlah') ?? 0  }}</td>
-                                <td class="py-2 px-4 text-purple-600">{{ number_format($stocks->sum('berat_bersih') ?? 0, 3) }} Gr</td>
+                            <tr class=" text-center bg-yellow-100 font-semibold">
+                                <td class="py-2 px-4 italic border">Jumlah</td>
+                                <td class="py-2 px-4 text-purple-600 border">{{ $sisaStock ?? 0  }}</td>
+                                <td class="py-2 px-4 text-purple-600 border">{{ number_format($sisaBerat, 3, ',', '.') }} Gr</td>
                             </tr>
                         </tfoot>
-                        @endif
                     </table>
-
-                    {{-- Pagination --}}
-                    @if(isset($stocks) && $stocks->count() > 0)
-                    <div class="mt-4 flex justify-center">
-                        {{ $stocks->links('pagination::tailwind') }}
-                    </div>
-                    @endif
                 </div>
             </div>
         </div>

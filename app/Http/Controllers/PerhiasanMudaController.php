@@ -7,6 +7,7 @@ use App\Models\Pembelian;
 use App\Models\Pengeluaran;
 use App\Models\Penjualan;
 use App\Models\Penjualan_lain;
+use App\Models\Perhiasan;
 use App\Models\Pricelists;
 use App\Models\Product;
 use App\Models\Stock;
@@ -511,26 +512,92 @@ class PerhiasanMudaController extends Controller
         $produks = Product::all();
         $selectedProduct = Product::findOrFail($id);
 
-        $query = Penjualan::with(['stock.produk', 'stock.perhiasan']);
-        $queryStock =  Stock::with(['produk', 'perhiasan']);
-
-        if ($id) {
-            $query->whereHas('stock', function ($q) use ($id) {
-                $q->where('id_produk', $id)
-                    ->whereHas('perhiasan', function ($p) {
-                    $p->where('jenis', 'Perhiasan Muda');
-                });
-            });
-            $queryStock->where('id_produk', $id)
-                ->whereHas('perhiasan', function ($p) {
-                $p->where('jenis', 'Perhiasan Muda');
-            });
+        // 1. Get the Perhiasan Muda
+        $perhiasan = Perhiasan::where('jenis', 'Perhiasan Muda')->first();
+        if (!$perhiasan) {
+            return abort(404, 'Perhiasan Muda tidak ditemukan.');
         }
+        $perhiasanId = $perhiasan->id;
 
-        $penjualans = $query->paginate(10)->withQueryString();
+        // 2. Query Stocks & Penjualans
+        $stocks = Stock::with(['produk', 'perhiasan'])
+            ->where('id_produk', $id)
+            ->where('id_perhiasan', $perhiasanId)
+            ->paginate(10)
+            ->withQueryString();
 
-        $stocks = $queryStock->paginate(10)->withQueryString();
+        $penjualans = Penjualan::with(['stock.produk', 'stock.perhiasan'])
+            ->whereHas('stock', function ($q) use ($id, $perhiasanId) {
+                $q->where('id_produk', $id)
+                ->where('id_perhiasan', $perhiasanId);
+            })
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('perhiasan-muda.penjualan_harian', ['produks' => $produks, 'selectedProduct' => $selectedProduct, 'penjualans' => $penjualans, 'stocks' => $stocks]);
+        // 3. Stock Awal
+        $stockAwalQty = Stock::where('id_produk', $id)
+            ->where('id_perhiasan', $perhiasanId)
+            ->sum('jumlah');
+
+        $beratStockAwal = Stock::where('id_produk', $id)
+            ->where('id_perhiasan', $perhiasanId)
+            ->sum('berat_bersih') * $stockAwalQty;
+
+        // 4. Tambahan from Pembelian
+        $tambahanQty = Pembelian::where('id_produk', $id)
+            ->where('id_perhiasan', $perhiasanId)
+            ->count(); // jumlah pembelian entries
+
+        $tambahanBerat = Pembelian::where('id_produk', $id)
+            ->where('id_perhiasan', $perhiasanId)
+            ->sum('berat') * $tambahanQty;
+
+        // 5. Rusak from Stock (keterangan = 'rusak')
+        $rusakQty = Stock::where('id_produk', $id)
+            ->where('id_perhiasan', $perhiasanId)
+            ->sum('rusak');
+
+        $rusakBerat = Stock::where('id_produk', $id)
+            ->where('id_perhiasan', $perhiasanId)
+            ->where('rusak', '>', 0)
+            ->sum('berat_bersih') * $rusakQty;
+
+        // 6. Terjual from Penjualan
+        $terjualRecords = Penjualan::whereHas('stock', function ($q) use ($id, $perhiasanId) {
+                $q->where('id_produk', $id)
+                ->where('id_perhiasan', $perhiasanId);
+            })
+            ->get();
+
+        $terjual = $terjualRecords->sum('jumlah_keluar');
+        $terjualBerat = $terjualRecords->sum(function ($penjualan) {
+            return $penjualan->jumlah_keluar * optional($penjualan->stock)->berat_bersih ?? 0;
+        });
+
+        // 7. Sisa Stock & Berat
+        $sisaStock = $stockAwalQty + $tambahanQty - $rusakQty - $terjual;
+        $sisaBerat = $beratStockAwal + $tambahanBerat - $rusakBerat - $terjualBerat;
+
+        return view('perhiasan-muda.penjualan_harian', [
+            'produks' => $produks,
+            'selectedProduct' => $selectedProduct,
+            'penjualans' => $penjualans,
+            'stocks' => $stocks,
+
+            'stockAwal' => $stockAwalQty,
+            'beratStockAwal' => $beratStockAwal,
+
+            'tambahanQty' => $tambahanQty,
+            'tambahanBerat' => $tambahanBerat,
+
+            'rusak' => $rusakQty,
+            'rusakBerat' => $rusakBerat,
+
+            'terjual' => $terjual,
+            'terjualBerat' => $terjualBerat,
+
+            'sisaStock' => $sisaStock,
+            'sisaBerat' => $sisaBerat,
+        ]);
     }
 }

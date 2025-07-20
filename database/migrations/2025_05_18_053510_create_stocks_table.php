@@ -24,6 +24,7 @@ return new class extends Migration
             $table->decimal('berat_kitir', 8, 3);
             $table->integer('pergram');
             $table->integer('real')->nullable();
+            $table->integer('rusak')->nullable()->default(0); // Assuming 'rusak' is a boolean field, using integer for simplicity
             $table->timestamps();
         });
     }

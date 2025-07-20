@@ -32,26 +32,26 @@
             <div class="col-span-2 bg-white rounded-xl shadow-md p-6">
                 <h2 class="text-xl font-semibold text-purple-800 mb-4">Gabungan Penjualan</h2>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full border-collapse text-sm text-gray-800">
+                    <table class="min-w-full border-collapse text-sm text-gray-800 border-gray-300">
                         <thead>
-                            <tr class="text-left border-b border-gray-200">
-                                <th class="py-2 px-4">Qyt</th>
-                                <th class="py-2 px-4">Jenis</th>
-                                <th class="py-2 px-4">Berat</th>
-                                <th class="py-2 px-4">Harga</th>
-                                <th class="py-2 px-4">Harga /Gr</th>
-                                
+                            <tr class="text-left bg-gray-200">
+                                <th class="py-2 px-4 border">Qyt</th>
+                                <th class="py-2 px-4 border">Jenis</th>
+                                <th class="py-2 px-4 border">Berat</th>
+                                <th class="py-2 px-4 border">Harga</th>
+                                <th class="py-2 px-4 border">Harga /Gr</th>
+
 
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             @forelse ($summary ?? [] as $item)
                                 <tr>
-                                    <td class="py-2 px-4">{{ $item['qty'] ?? '-' }}</td>
-                                    <td class="py-2 px-4">{{ $item['jenis'] ?? '-' }}</td>
-                                    <td class="py-2 px-4">{{ number_format($item['berat'] ?? '0', 3, ',', '.') }} Gr</td>
-                                    <td class="py-2 px-4">Rp. {{ number_format($item['harga'] ?? '0',0, ',', '.') }}</td>
-                                    <td class="py-2 px-4">Rp. {{ number_format($item['harga_per_gram'] ?? '0',0, ',', '.') }}</td>
+                                    <td class="py-2 px-4 border">{{ $item['qty'] ?? '-' }}</td>
+                                    <td class="py-2 px-4 border">{{ $item['jenis'] ?? '-' }}</td>
+                                    <td class="py-2 px-4 border">{{ number_format($item['berat'] ?? '0', 3, ',', '.') }} Gr</td>
+                                    <td class="py-2 px-4 border">Rp. {{ number_format($item['harga'] ?? '0',0, ',', '.') }}</td>
+                                    <td class="py-2 px-4 border">Rp. {{ number_format($item['harga_per_gram'] ?? '0',0, ',', '.') }}</td>
                                 </tr>
                             @empty
                                 <tr>
@@ -63,11 +63,10 @@
                         @if(isset($summary) && $summary->count() > 0)
                         <tfoot>
                             <tr class="bg-yellow-100 font-semibold">
-                                <td class="py-2 px-4 italic">Jumlah</td>
-                                <td colspan="1"></td>
-                                <td class="py-2 px-4 text-purple-600">{{ number_format($summary->sum('berat') ?? 0, 3) }} Gr</td>
-                                <td class="py-2 px-4 text-purple-600">Rp. {{ number_format($summary->sum('harga') ?? 0, 0, ',', '.') }}</td>
-                                <td class="py-2 px-4 text-purple-600">
+                                <td colspan="2" class="py-2 px-4 italic border">Jumlah</td>
+                                <td class="py-2 px-4 text-purple-600 border">{{ number_format($summary->sum('berat') ?? 0, 3) }} Gr</td>
+                                <td class="py-2 px-4 text-purple-600 border">Rp. {{ number_format($summary->sum('harga') ?? 0, 0, ',', '.') }}</td>
+                                <td class="py-2 px-4 text-purple-600 border">
                                     Rata / Gram: Rp. {{ number_format($summary->avg('harga_per_gram') ?? 0, 0, ',', '.') }}
                                 </td>
                             </tr>
@@ -88,21 +87,21 @@
                     <div class="col-span-1 bg-white rounded-xl shadow-md p-6">
                         <h2 class="text-xl font-semibold text-purple-800 mb-4">Laba Bersih</h2>
                         <div class="overflow-x-auto">
-                            <table class="min-w-full border-collapse text-sm text-gray-800">
+                            <table class="min-w-full border-collapse text-sm text-gray-800 border-gray-300">
                                 <thead>
-                                    <tr class="text-left border-b border-gray-200">
-                                        <th class="py-2 px-4">Pembelian</th>
-                                        <th class="py-2 px-4">Penjualan</th>
-                                        <th class="py-2 px-4">Keuntungan</th>
+                                    <tr class="text-left bg-gray-200">
+                                        <th class="py-2 px-4 border">Pembelian</th>
+                                        <th class="py-2 px-4 border">Penjualan</th>
+                                        <th class="py-2 px-4 border">Keuntungan</th>
 
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-100">
                                     @forelse ($labaBersih ?? [] as $item)
                                         <tr>
-                                            <td class="py-2 px-4">Rp. {{ number_format($item['pembelian'] ?? 0, 0, ',', '.') }}</td>
-                                            <td class="py-2 px-4">Rp. {{ number_format($item['penjualan'] ?? 0, 0, ',', '.') }}</td>
-                                            <td class="py-2 px-4">Rp. {{ number_format($item['keuntungan'] ?? 0, 0, ',', '.') }}</td>
+                                            <td class="py-2 px-4 border">Rp. {{ number_format($item['pembelian'] ?? 0, 0, ',', '.') }}</td>
+                                            <td class="py-2 px-4 border">Rp. {{ number_format($item['penjualan'] ?? 0, 0, ',', '.') }}</td>
+                                            <td class="py-2 px-4 border">Rp. {{ number_format($item['keuntungan'] ?? 0, 0, ',', '.') }}</td>
                                         </tr>
                                     @empty
                                         <tr>
@@ -114,9 +113,9 @@
                                 @if(isset($labaBersih) && count($labaBersih) > 0)
                                 <tfoot>
                                     <tr class="bg-yellow-100 font-semibold">
-                                        <td class="py-2 px-4 text-purple-600">Rp. {{ number_format(collect($labaBersih)->sum('pembelian') ?? 0, 0,',','.') }}</td>
-                                        <td class="py-2 px-4 text-purple-600">Rp. {{ number_format(collect($labaBersih)->sum('penjualan') ?? 0, 0,',','.') }}</td>
-                                        <td class="py-2 px-4 text-purple-600">Rp. {{ number_format(collect($labaBersih)->sum('keuntungan') ?? 0, 0, ',', '.') }}</td>
+                                        <td class="py-2 px-4 text-purple-600 border">Rp. {{ number_format(collect($labaBersih)->sum('pembelian') ?? 0, 0,',','.') }}</td>
+                                        <td class="py-2 px-4 text-purple-600 border">Rp. {{ number_format(collect($labaBersih)->sum('penjualan') ?? 0, 0,',','.') }}</td>
+                                        <td class="py-2 px-4 text-purple-600 border">Rp. {{ number_format(collect($labaBersih)->sum('keuntungan') ?? 0, 0, ',', '.') }}</td>
                                     </tr>
                                 </tfoot>
                                 @endif
@@ -137,26 +136,27 @@
             <div class="col-span-1 bg-white rounded-xl shadow-md p-6">
                 <h2 class="text-xl font-semibold text-purple-800 mb-4">Rincian Pengeluaran</h2>
                 <div class="text-right my-4">
-                    <button onclick="document.getElementById('modal-pengeluaran').classList.remove('hidden')" class="bg-secondary-700 text-white px-4 py-2 rounded hover:bg-secondary-800">
+                    <button onclick="document.getElementById('modal-pengeluaran-muda').classList.remove('hidden')" class="bg-secondary-700 text-white px-4 py-2 rounded hover:bg-secondary-800">
                         Tambah
                     </button>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full border-collapse text-sm text-gray-800">
+                    <table class="min-w-full border-collapse text-sm text-gray-800 border-gray-300">
                         <thead>
-                            <tr class="text-left border-b border-gray-200">
-                                <th class="py-2 px-4">No</th>
-                                <th class="py-2 px-4">Pengeluaran</th>
-                                <th class="py-2 px-4">Nilai</th>
+                            <tr class="text-left bg-gray-200">
+                                <th class="py-2 px-4 border">No</th>
+                                <th class="py-2 px-4 border">Pengeluaran</th>
+                                <th class="py-2 px-4 border">Nilai</th>
+                                <th class="py-2 px-4 border">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             @forelse ($pengeluarans ?? [] as $item)
                                 <tr>
-                                    <td class="py-2 px-4">{{ $loop->iteration }}</td>
-                                    <td class="py-2 px-4">{{ $item['nama'] ?? '-' }}</td>
-                                    <td class="py-2 px-4">Rp {{ number_format($item['nilai'] ?? 0, 0, ',', '.') }}</td>
-                                    <td class="p-2 flex flex-row gap-6 justify-center">
+                                    <td class="py-2 px-4 border">{{ $loop->iteration }}</td>
+                                    <td class="py-2 px-4 border">{{ $item['nama'] ?? '-' }}</td>
+                                    <td class="py-2 px-4 border">Rp {{ number_format($item['nilai'] ?? 0, 0, ',', '.') }}</td>
+                                    <td class="p-2 flex flex-row gap-6 justify-center border">
                                         <button
                                             onclick="openEditModalRingkasanPengeluaran(this)"
                                             data-id="{{ $item['id'] }}"
@@ -183,7 +183,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="3" class="text-center text-gray-500 py-4">Data Unavailable</td>
+                                    <td colspan="3" class="text-center text-gray-500 py-4 border">Data Unavailable</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -191,11 +191,11 @@
                         @if(isset($pengeluarans) && $pengeluarans->count() > 0)
                         <tfoot>
                             <tr class="bg-yellow-100 font-semibold">
-                                <td colspan="2" class="py-2 px-4 italic">Jumlah</td>
-                                <td class="py-2 px-4 text-purple-600">
+                                <td colspan="2" class="py-2 px-4 italic border">Jumlah</td>
+                                <td class="py-2 px-4 text-purple-600 border">
                                     Rp. {{ number_format($pengeluarans->sum('nilai') ?? 0, 0, ',', '.') }}
                                 </td>
-                                <td class="py-2 px-4 text-purple-600"></td>
+                                <td class="py-2 px-4 text-purple-600 border"></td>
                             </tr>
                         </tfoot>
                         @endif
@@ -212,32 +212,32 @@
             <div class="col-span-1 bg-white rounded-xl shadow-md p-6">
                 <h2 class="text-xl font-semibold text-purple-800 mb-4">Total Pengeluaran</h2>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full border-collapse text-sm text-gray-800">
+                    <table class="min-w-full border-collapse text-sm text-gray-800 border-gray-300">
                         <thead>
-                            <tr class="text-left border-b border-gray-200">
-                                <th class="py-2 px-4">Jenis Pengeluaran</th>
-                                <th class="py-2 px-4">Berat</th>
-                                <th class="py-2 px-4">Jumlah</th>
-                                <th class="py-2 px-4">Harga /Gr</th>
+                            <tr class="text-left bg-gray-200">
+                                <th class="py-2 px-4 border">Jenis Pengeluaran</th>
+                                <th class="py-2 px-4 border">Berat</th>
+                                <th class="py-2 px-4 border">Jumlah</th>
+                                <th class="py-2 px-4 border">Harga /Gr</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             @forelse ($totalPengeluaran ?? [] as $item)
                                 <tr>
-                                    <td class="py-2 px-4">{{ $item['jenis'] ?? '-' }}</td>
-                                    <td class="py-2 px-4">
+                                    <td class="py-2 px-4 border">{{ $item['jenis'] ?? '-' }}</td>
+                                    <td class="py-2 px-4 border">
                                         {{ isset($item['berat']) ? number_format($item['berat'], 3, ',', '.') . ' Gr' : '-' }}
                                     </td>
-                                    <td class="py-2 px-4">
+                                    <td class="py-2 px-4 border">
                                         {{ isset($item['jumlah']) ? 'Rp. ' . number_format($item['jumlah'], 0, ',', '.') : '-' }}
                                     </td>
-                                    <td class="py-2 px-4">
+                                    <td class="py-2 px-4 border">
                                         {{ isset($item['harga_per_gram']) ? 'Rp. ' . number_format($item['harga_per_gram'], 0, ',', '.') : '-' }}
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="text-center text-gray-500 py-4">Data Unavailable</td>
+                                    <td colspan="4" class="text-center text-gray-500 py-4 border">Data Unavailable</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -245,10 +245,10 @@
                         @if(isset($totalPengeluaran) && count($totalPengeluaran) > 0)
                         <tfoot>
                             <tr class="bg-yellow-100 font-semibold">
-                                <td class="py-2 px-4 italic">Jumlah</td>
-                                <td class="py-2 px-4 text-purple-600">{{ number_format(collect($totalPengeluaran)->sum('berat') ?? 0, 3) }} Gr</td>
-                                <td class="py-2 px-4 text-purple-600">Rp. {{ number_format(collect($totalPengeluaran)->sum('jumlah') ?? 0, 0, ',', '.') }}</td>
-                                <td class="py-2 px-4 text-purple-600">Rp. {{ number_format(collect($totalPengeluaran)->sum('harga_per_gram') ?? 0, 0, ',', '.') }}</td>
+                                <td class="py-2 px-4 italic border">Jumlah</td>
+                                <td class="py-2 px-4 text-purple-600 border">{{ number_format(collect($totalPengeluaran)->sum('berat') ?? 0, 3) }} Gr</td>
+                                <td class="py-2 px-4 text-purple-600 border">Rp. {{ number_format(collect($totalPengeluaran)->sum('jumlah') ?? 0, 0, ',', '.') }}</td>
+                                <td class="py-2 px-4 text-purple-600 border">Rp. {{ number_format(collect($totalPengeluaran)->sum('harga_per_gram') ?? 0, 0, ',', '.') }}</td>
                             </tr>
                         </tfoot>
                         @endif
@@ -260,30 +260,31 @@
             <div class="col-span-2 bg-white rounded-xl shadow-md p-6">
                 <h2 class="text-xl font-semibold text-purple-800 mb-4">Penjualan Lain</h2>
                 <div class="text-right my-4">
-                    <button onclick="document.getElementById('modal-penjualanLain').classList.remove('hidden')" class="bg-secondary-700 text-white px-4 py-2 rounded hover:bg-secondary-800">
+                    <button onclick="document.getElementById('modal-penjualanLain-muda').classList.remove('hidden')" class="bg-secondary-700 text-white px-4 py-2 rounded hover:bg-secondary-800">
                         Tambah
                     </button>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full border-collapse text-sm text-gray-800">
+                    <table class="min-w-full border-collapse text-sm text-gray-800 border-gray-300">
                         <thead>
-                            <tr class="text-left border-b border-gray-200">
-                                <th class="py-2 px-4">No</th>
-                                <th class="py-2 px-4">jenis Penjualan</th>
-                                <th class="py-2 px-4">Berat</th>
-                                <th class="py-2 px-4">Harga</th>
-                                <th class="py-2 px-4">Keterangan</th>
+                            <tr class="text-left bg-gray-200">
+                                <th class="py-2 px-4 border">No</th>
+                                <th class="py-2 px-4 border">jenis Penjualan</th>
+                                <th class="py-2 px-4 border">Berat</th>
+                                <th class="py-2 px-4 border">Harga</th>
+                                <th class="py-2 px-4 border">Keterangan</th>
+                                <th class="py-2 px-4 border">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             @forelse ($penjualanLain ?? [] as $item)
                                 <tr>
-                                    <td class="py-2 px-4">{{ $loop->iteration }}</td>
-                                    <td class="py-2 px-4">{{ $item['jenis_penjualan'] ?? '-' }}</td>
-                                    <td class="py-2 px-4">{{ number_format($item['berat'] ?? 0, 3) }} Gr</td>
-                                    <td class="py-2 px-4">Rp. {{ number_format($item['harga'] ?? 0, 0, ',', '.') }}</td>
-                                    <td class="py-2 px-4">{{ $item['keterangan'] ?? '-' }}</td>
-                                    <td class="p-2 flex flex-row gap-6 justify-center">
+                                    <td class="py-2 px-4 border">{{ $loop->iteration }}</td>
+                                    <td class="py-2 px-4 border">{{ $item['jenis_penjualan'] ?? '-' }}</td>
+                                    <td class="py-2 px-4 border">{{ number_format($item['berat'] ?? 0, 3) }} Gr</td>
+                                    <td class="py-2 px-4 border">Rp. {{ number_format($item['harga'] ?? 0, 0, ',', '.') }}</td>
+                                    <td class="py-2 px-4 border">{{ $item['keterangan'] ?? '-' }}</td>
+                                    <td class="p-2 flex flex-row gap-6 justify-center border">
                                         <form method="POST" action="{{ route('perhiasan.muda.ringkasan.penjualanLain.destroy', $item['id']) }}">
                                             @csrf
                                             @method('DELETE')
@@ -298,7 +299,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center text-gray-500 py-4">Data Unavailable</td>
+                                    <td colspan="5" class="text-center text-gray-500 py-4 border">Data Unavailable</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -306,10 +307,10 @@
                         @if(isset($penjualanLain) && $penjualanLain->count() > 0)
                         <tfoot>
                             <tr class="bg-yellow-100 font-semibold">
-                                <td colspan="2" class="py-2 px-4 italic">Jumlah</td>
-                                <td class="py-2 px-4 text-purple-600">{{ number_format($penjualanLain->sum('berat') ?? 0, 3) }} Gr</td>
-                                <td class="py-2 px-4 text-purple-600">Rp. {{ number_format($penjualanLain->sum('harga') ?? 0, 0, ',', '.') }}</td>
-                                <td colspan="2"></td>
+                                <td colspan="2" class="py-2 px-4 italic border">Jumlah</td>
+                                <td class="py-2 px-4 text-purple-600 border">{{ number_format($penjualanLain->sum('berat') ?? 0, 3) }} Gr</td>
+                                <td colspan="3" class="py-2 px-4 text-purple-600 border">Rp. {{ number_format($penjualanLain->sum('harga') ?? 0, 0, ',', '.') }}</td>
+
                             </tr>
                         </tfoot>
                         @endif
@@ -326,22 +327,23 @@
             <div class="col-span-1 bg-white rounded-xl shadow-md p-6">
                 <h2 class="text-xl font-semibold text-purple-800 mb-4">Price list</h2>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full border-collapse text-sm text-gray-800">
+                    <table class="min-w-full border-collapse text-sm text-gray-800 border-gray-300">
                         <thead>
-                            <tr class="text-left border-b border-gray-200">
-                                <th class="py-2 px-4">Kadar</th>
-                                <th class="py-2 px-4">Max</th>
-                                <th class="py-2 px-4">Min</th>
+                            <tr class="text-left bg-gray-200">
+                                <th class="py-2 px-4 border">Kadar</th>
+                                <th class="py-2 px-4 border">Max</th>
+                                <th class="py-2 px-4 border">Min</th>
+                                <th class="py-2 px-4 border"></th>
 
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             @forelse ($pricelists ?? [] as $item)
                                 <tr>
-                                    <td class="py-2 px-4">{{ $item['kadar'] ?? '-' }}K</td>
-                                    <td class="py-2 px-4">Rp. {{ number_format($item['harga_max'] ?? 0, 0, ',', '.') }}</td>
-                                    <td class="py-2 px-4">Rp. {{ number_format($item['harga_min'] ?? 0, 0, ',', '.') }}</td>
-                                    <td class="p-2 flex flex-row gap-6 justify-center">
+                                    <td class="py-2 px-4 border">{{ $item['kadar'] ?? '-' }}K</td>
+                                    <td class="py-2 px-4 border">Rp. {{ number_format($item['harga_max'] ?? 0, 0, ',', '.') }}</td>
+                                    <td class="py-2 px-4 border">Rp. {{ number_format($item['harga_min'] ?? 0, 0, ',', '.') }}</td>
+                                    <td class="p-2 flex flex-row gap-6 justify-center border">
                                         <form method="POST" action="{{ route('perhiasan.muda.ringkasan.pricelist.destroy', $item['id']) }}">
                                             @csrf
                                             @method('DELETE')
@@ -356,7 +358,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="3" class="text-center text-gray-500 py-4">Data Unavailable</td>
+                                    <td colspan="3" class="text-center text-gray-500 py-4 border">Data Unavailable</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -364,16 +366,16 @@
 
                 </div>
                 <div class="text-center my-4">
-                    <button onclick="document.getElementById('modal-pricelist').classList.remove('hidden')" class="bg-secondary-700 text-white px-4 py-2 rounded hover:bg-secondary-800">
+                    <button onclick="document.getElementById('modal-pricelist-muda').classList.remove('hidden')" class="bg-secondary-700 text-white px-4 py-2 rounded hover:bg-secondary-800">
                         Tambah
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    <div id="modal-pricelist" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+    <div id="modal-pricelist-muda" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
         <div class="bg-white w-full max-w-3xl rounded-lg p-6 shadow-lg relative">
-            <button onclick="document.getElementById('modal-pricelist').classList.add('hidden')" class="absolute top-2 right-2 text-xl">&times;</button>
+            <button onclick="document.getElementById('modal-pricelist-muda').classList.add('hidden')" class="absolute top-2 right-2 text-xl">&times;</button>
             <h2 class="text-lg font-bold mb-4">Tambah Pricelist</h2>
             <form action="{{ route('perhiasan.muda.ringkasan.pricelist.store') }}" method="POST">
                 @csrf
@@ -393,12 +395,13 @@
                     <div class="mt-4 text-right">
                         <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Simpan</button>
                     </div>
+                </div>
             </form>
         </div>
     </div>
-    <div id="modal-penjualanLain" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+    <div id="modal-penjualanLain-muda" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
         <div class="bg-white w-full max-w-3xl rounded-lg p-6 shadow-lg relative">
-            <button onclick="document.getElementById('modal-penjualanLain').classList.add('hidden')" class="absolute top-2 right-2 text-xl">&times;</button>
+            <button onclick="document.getElementById('modal-penjualanLain-muda').classList.add('hidden')" class="absolute top-2 right-2 text-xl">&times;</button>
             <h2 class="text-lg font-bold mb-4">Tambah Penjualan Lain</h2>
             <form action="{{ route('perhiasan.muda.ringkasan.penjualanLain.store') }}" method="POST">
                 @csrf
@@ -418,6 +421,8 @@
                     <div>
                         <label class="block text-sm">Keterangan</label>
                         <input type="text" name="keterangan" class="w-full border px-3 py-2 rounded">
+                    </div>
+                </div>
 
                 <div class="mt-4 text-right">
                     <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Simpan</button>
@@ -425,9 +430,9 @@
             </form>
         </div>
     </div>
-    <div id="modal-pengeluaran" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+    <div id="modal-pengeluaran-muda" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
         <div class="bg-white w-full max-w-3xl rounded-lg p-6 shadow-lg relative">
-            <button onclick="document.getElementById('modal-pengeluaran').classList.add('hidden')" class="absolute top-2 right-2 text-xl">&times;</button>
+            <button onclick="document.getElementById('modal-pengeluaran-muda').classList.add('hidden')" class="absolute top-2 right-2 text-xl">&times;</button>
             <h2 class="text-lg font-bold mb-4">Tambah pengeluaran</h2>
             <form action="{{ route('perhiasan.muda.ringkasan.pengeluaran.store') }}" method="POST">
                 @csrf

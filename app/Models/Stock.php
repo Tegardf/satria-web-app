@@ -17,6 +17,7 @@ class Stock extends Model
         'berat_bersih',
         'berat_kitir',
         'pergram',
+        'rusak', 
         'real',
     ];
 
