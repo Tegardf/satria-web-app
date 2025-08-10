@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('berat_kotor', 8, 3);
             $table->decimal('berat_bersih', 8, 3);
             $table->decimal('berat_kitir', 8, 3);
+            $table->decimal('kadar', 5, 2);
             $table->integer('pergram');
             $table->integer('real')->nullable();
             $table->integer('rusak')->nullable()->default(0); // Assuming 'rusak' is a boolean field, using integer for simplicity

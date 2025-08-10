@@ -59,6 +59,7 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/ringkasan/pricelist', [PerhiasanTuaController::class, 'ringkasanPricelistStore'])->name('ringkasan.pricelist.store');
         Route::delete('/ringkasan/pricelist/{id}', [PerhiasanTuaController::class, 'ringkasanPricelistDestroy'])->name('ringkasan.pricelist.destroy');
+        Route::put('/ringkasan/pricelist/{id}', [PerhiasanTuaController::class, 'ringkasanPricelistUpdate'])->name('ringkasan.pricelist.update');
 
         Route::get('/gesek', [PerhiasanTuaController::class, 'gesek'])->name('gesek');
         Route::post('/gesek', [PerhiasanTuaController::class, 'gesekStore'])->name('gesek.store');
@@ -89,6 +90,8 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/ringkasan/pricelist', [PerhiasanMudaController::class, 'ringkasanPricelistStore'])->name('ringkasan.pricelist.store');
         Route::delete('/ringkasan/pricelist/{id}', [PerhiasanMudaController::class, 'ringkasanPricelistDestroy'])->name('ringkasan.pricelist.destroy');
+        Route::put('/ringkasan/pricelist/{id}', [PerhiasanMudaController::class, 'ringkasanPricelistUpdate'])->name('ringkasan.pricelist.update');
+
 
         Route::get('/gesek', [PerhiasanMudaController::class, 'gesek'])->name('gesek');
         Route::post('/gesek', [PerhiasanMudaController::class, 'gesekStore'])->name('gesek.store');

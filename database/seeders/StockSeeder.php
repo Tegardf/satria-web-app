@@ -35,7 +35,8 @@ class StockSeeder extends Seeder
                     'berat_bersih' => round(rand(80, 290) / 100, 3),  // 0.80 - 2.90 gr
                     'berat_kitir' => round(rand(5, 50) / 100, 3),     // 0.05 - 0.50 gr
                     'pergram' => rand(100000, 500000), // 100.000 - 500.000 IDR
-                    'real' => rand(0, 10) // Optional real value
+                    'real' => rand(0, 10), // Optional real value
+                    'kadar' => round(rand(70, 999) / 100, 2), // Kadar in percentage (0.70 - 9.99)
                 ]);
             }
         }

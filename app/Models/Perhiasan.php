@@ -22,9 +22,13 @@ class Perhiasan extends Model
         return $this->hasMany(Gesek::class, 'id_perhiasan');
     }
 
-
     public function pembelians()
     {
         return $this->hasMany(Pembelian::class, 'id_perhiasan');
+    }
+
+    public function pricelists()
+    {
+        return $this->hasMany(Pricelists::class, 'id_perhiasan');
     }
 }

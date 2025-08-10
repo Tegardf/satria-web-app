@@ -340,10 +340,24 @@
                         <tbody class="divide-y divide-gray-100">
                             @forelse ($pricelists ?? [] as $item)
                                 <tr>
+                                    <td class="py-2 px-4 border hidden">{{ $item['id'] ?? '-' }}K</td>
                                     <td class="py-2 px-4 border">{{ $item['kadar'] ?? '-' }}K</td>
                                     <td class="py-2 px-4 border">Rp. {{ number_format($item['harga_max'] ?? 0, 0, ',', '.') }}</td>
                                     <td class="py-2 px-4 border">Rp. {{ number_format($item['harga_min'] ?? 0, 0, ',', '.') }}</td>
                                     <td class="p-2 flex flex-row gap-6 justify-center border">
+                                        <button
+                                            onclick="openEditModalRingkasanPricelists(this)"
+                                            data-id="{{ $item['id'] }}"
+                                            data-kadar="{{ $item['kadar'] }}"
+                                            data-harga_max="{{ $item['harga_max'] }}"
+                                            data-harga_min="{{ $item['harga_min'] }}"
+                                            class="text-blue-600 hover:text-blue-800" title="Edit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                            </svg>
+                                        </button>
                                         <form method="POST" action="{{ route('perhiasan.muda.ringkasan.pricelist.destroy', $item['id']) }}">
                                             @csrf
                                             @method('DELETE')
@@ -380,6 +394,7 @@
             <form action="{{ route('perhiasan.muda.ringkasan.pricelist.store') }}" method="POST">
                 @csrf
                 <div class="grid grid-cols-2 gap-4">
+                    <input type="number" name="id_perhiasan" class="hidden" value=2>
                     <div>
                         <label class="block text-sm">Kadar</label>
                         <input type="number" name="kadar" class="w-full border px-3 py-2 rounded" required>
@@ -470,9 +485,39 @@
                         <label for="editNilai" class="block text-sm font-medium">Nilai</label>
                         <input type="text" name="nilai" id="editNilai" class="w-full border rounded px-2 py-1" required>
                     </div>
-
+                </div>
                 <div class="flex justify-end space-x-2">
                     <button type="button" onclick="closeModalRingkasanPengeluaran()" class="bg-gray-400 px-4 py-2 text-white rounded">Cancel</button>
+                    <button type="submit" class="bg-blue-600 px-4 py-2 text-white rounded">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="editModalRingkasanPricelists" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl p-6 relative">
+            <h3 class="text-lg font-semibold mb-4">Edit Pricelist</h3>
+            <form method="POST" id="editFormPricelist" class="space-y-4">
+                @csrf
+                @method('PUT')
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="hidden" id="editId" name="id">
+                    <div>
+                        <label class="block text-sm">Kadar</label>
+                        <input type="number" name="kadar" class="w-full border px-3 py-2 rounded" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm">Harga - Minimum</label>
+                        <input type="number" name="harga_min" class="w-full border px-3 py-2 rounded" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm">Harga - Maksimum</label>
+                        <input type="number" name="harga_max" class="w-full border px-3 py-2 rounded" required>
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="closeModalRingkasanPricelists()" class="bg-gray-400 px-4 py-2 text-white rounded">Cancel</button>
                     <button type="submit" class="bg-blue-600 px-4 py-2 text-white rounded">Update</button>
                 </div>
             </form>
@@ -494,8 +539,26 @@
             form.querySelector('input[name="namaBarang"]').value = namaBarang;
             form.querySelector('input[name="nilai"]').value = nilai;
         }
+        function openEditModalRingkasanPricelists(button) {
+            const modal = document.getElementById('editModalRingkasanPricelists');
+            modal.classList.remove('hidden');
+        
+            const id = button.getAttribute('data-id');
+            const kadar = button.getAttribute('data-kadar');
+            const hargaMin = button.getAttribute('data-harga_min');
+            const hargaMax = button.getAttribute('data-harga_max');
+
+            const form = modal.querySelector('form');
+            form.action = `/perhiasan-muda/ringkasan/pricelist/${id}`;
+            form.querySelector('input[name="kadar"]').value = kadar;
+            form.querySelector('input[name="harga_min"]').value = hargaMin;
+            form.querySelector('input[name="harga_max"]').value = hargaMax;
+        }
         function closeModalRingkasanPengeluaran() {
             document.getElementById('editModalRingkasanPengeluaran').classList.add('hidden');
+        }
+        function closeModalRingkasanPricelists() {
+            document.getElementById('editModalRingkasanPricelists').classList.add('hidden');
         }
         setTimeout(() => {
             const flash = document.getElementById('flash-message');

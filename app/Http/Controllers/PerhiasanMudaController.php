@@ -31,9 +31,13 @@ class PerhiasanMudaController extends Controller
             $sisa_stok = $stok_awal - $keluar;
             $real = $stock->real ?? 0; 
             $selisih = $real - $stok_awal;
+            $berat_total = $stock->berat_bersih * $stock->jumlah;
+            $harga_total = $berat_total * $stock->pergram;
 
             return [
                 'id' => $stock->id,
+                'berat_total' => $berat_total,
+                'harga_total' => $harga_total,
                 'item' => $stock->nama ?? '-',
                 'stok_awal' => $stok_awal,
                 'keluar' => $keluar,
@@ -56,6 +60,7 @@ class PerhiasanMudaController extends Controller
             return [
                 'id' => $p->id,
                 'item' => $stock->produk->jenis ?? '-', 
+                'tanggal' => $p->tanggal,
                 'nama_barang' => $stock->nama ?? '-', 
                 'kadar' => $stock->berat_kitir ?? 0,
                 'berat' => $stock->berat_bersih ?? 0, 
@@ -69,8 +74,14 @@ class PerhiasanMudaController extends Controller
             ];
         });
 
-        $totalBerat = $stocksNormal->sum('berat_bersih');
-        $totalHarga = $stocksNormal->sum('pergram') * $totalBerat; 
+        $totalBerat = $stocksNormal->sum(function ($stock) {
+            return $stock->berat_bersih * $stock->jumlah;
+        });
+
+        $totalHarga = $stocksNormal->sum(function ($stock) {
+            return $stock->pergram * ($stock->berat_bersih * $stock->jumlah);
+        });
+
         $rataPerGram = $totalBerat > 0 ? round($totalHarga / $totalBerat, 2) : 0;
 
         return view('perhiasan-muda.penjualan', 
@@ -310,13 +321,24 @@ class PerhiasanMudaController extends Controller
         });
         $rataHargaPerGram = $totalBerat > 0 ? $totalHarga / $totalBerat : 0;
 
+        $perhiasanMuda = Perhiasan::where('jenis', 'Perhiasan Muda')->first();
+        $idPerhiasanMuda = $perhiasanMuda ? $perhiasanMuda->id : null;
+
         $pembelianGroup = Pembelian::selectRaw('id_bulan, SUM(pergram_beli * berat) as total_pembelian')
+            ->when($idPerhiasanMuda, function ($query) use ($idPerhiasanMuda) {
+            $query->where('id_perhiasan', $idPerhiasanMuda);
+            })
             ->groupBy('id_bulan')
             ->get()
             ->keyBy('id_bulan');
 
-        $penjualanGroup = Penjualan::selectRaw('id_bulan, SUM(harga_jual) as total_penjualan')
-            ->groupBy('id_bulan')
+        $penjualanGroup = Penjualan::with('stock')
+            ->whereHas('stock.perhiasan', function ($query) use ($idPerhiasanMuda) {
+                $query->where('id', $idPerhiasanMuda);
+            })
+            ->join('stocks', 'penjualans.id_stock', '=', 'stocks.id')
+            ->selectRaw('penjualans.id_bulan, SUM((penjualans.harga_jual - stocks.pergram) * stocks.berat_bersih * penjualans.jumlah_keluar) as total_penjualan')
+            ->groupBy('penjualans.id_bulan')
             ->get()
             ->keyBy('id_bulan');
 
@@ -327,9 +349,10 @@ class PerhiasanMudaController extends Controller
         foreach ($allBulanIds as $id_bulan) {
             $pembelian = $pembelianGroup[$id_bulan]->total_pembelian ?? 0;
             $penjualan = $penjualanGroup[$id_bulan]->total_penjualan ?? 0;
-            $keuntungan = $penjualan - $pembelian;
+            $keuntungan = $penjualan + $pembelian;
 
             $labaBersih[] = [
+                'id_bulan' => $id_bulan,
                 'pembelian' => round($pembelian, 2),
                 'penjualan' => round($penjualan, 2),
                 'keuntungan' => round($keuntungan, 2),
@@ -359,7 +382,11 @@ class PerhiasanMudaController extends Controller
         ];
 
         $penjualanLain = Penjualan_lain::latest()->paginate(10);
-        $pricelists = Pricelists::all();
+        $pricelists = Pricelists::with('perhiasan')
+            ->whereHas('perhiasan', function ($query) {
+            $query->where('jenis', 'Perhiasan Muda');
+            })
+            ->get();
 
         $totalPembelian = Pembelian::selectRaw('SUM(pergram_beli * berat) as total')->value('total') ?? 0;
 
@@ -444,6 +471,7 @@ class PerhiasanMudaController extends Controller
 
     public function ringkasanPricelistStore(Request $request) {
         $request->validate([
+            'id_perhiasan' => 'required|exists:perhiasans,id',
             'kadar' => 'required|numeric',
             'harga_min' => 'required|numeric|min:0',
             'harga_max' => 'required|numeric|min:0',
@@ -452,6 +480,20 @@ class PerhiasanMudaController extends Controller
         Pricelists::create($request->all());
 
         return redirect()->back()->with('success', 'Pricelist berhasil ditambahkan');
+    }
+
+    public function ringkasanPricelistUpdate(Request $request, $id) {
+        $pricelist = Pricelists::findOrFail($id);
+
+        $request->validate([
+            'kadar' => 'required|numeric',
+            'harga_min' => 'required|numeric|min:0',
+            'harga_max' => 'required|numeric|min:0',
+        ]);
+
+        $pricelist->update($request->all());
+
+        return redirect()->back()->with('success', 'Pricelist berhasil diperbarui');
     }
 
     public function ringkasanPricelistDestroy($id) {

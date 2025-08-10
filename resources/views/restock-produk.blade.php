@@ -30,10 +30,10 @@
                                 @forelse ($restocks ?? [] as $restock)
                                     <tr>
                                         <td class="py-2 px-4 border border-gray-300">{{ $restock['model'] ?? '-' }}</td>
-                                        <td class="py-2 px-4 border border-gray-300">{{ $restock['berat'] ?? '0.00' }}</td>
+                                        <td class="py-2 px-4 border border-gray-300">{{ $restock['berat'] ?? '0.00'}} Gr</td>
                                         <td class="py-2 px-4 border border-gray-300">{{ $restock['ukuran'] ?? '-' }}</td>
                                         <td class="py-2 px-4 border border-gray-300">{{ $restock['kadar'] ?? '0' }}%</td>
-                                        <td class="py-2 px-4 border border-gray-300">{{ $restock['jumlah'] ?? '0' }} Gr</td>
+                                        <td class="py-2 px-4 border border-gray-300">{{ $restock['jumlah'] ?? '0' }}</td>
                                         <td class="py-2 px-2 text-center">
                                             <input 
                                             data-id="{{ $restock->id }}"

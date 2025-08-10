@@ -28,7 +28,7 @@
                 <div class="flex w-full h-40 items-center bg-card-gradient-4 text-purple-900 p-4 rounded-xl shadow relative">
                     <div class="flex flex-1 h-full flex-col items-center justify-center gap-4 z-10 text-secondary-300">
                         <div class="text-2xl font-semibold">PERSEDIAAN</div>
-                        <div class="text-xl font-semibold">{{ number_format($persediaan) }} Gram</div>
+                        <div class="text-xl font-semibold">{{ number_format($persediaan, 2, ',', '.') }} Gram</div>
                     </div>
                     <img src="{{ asset('persediaan.svg') }}" alt="Stok Icon" class="absolute z-0 w-28 right-1">
                 </div>

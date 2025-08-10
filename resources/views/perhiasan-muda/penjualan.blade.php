@@ -26,6 +26,8 @@
                                     <th class="py-2 px-4 border">Sisa Stok</th>
                                     <th class="py-2 px-4 border">Real</th>
                                     <th class="py-2 px-4 border">Selisih</th>
+                                    <th class="py-2 px-4 border">Berat Total</th>
+                                    <th class="py-2 px-4 border">Harga Total</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100">
@@ -38,6 +40,8 @@
                                     <td class="py-2 px-4 border">{{ $item['sisa_stok'] }}</td>
                                     <td class="py-2 px-4 border">{{ $item['real'] }}</td>
                                     <td class="py-2 px-4 border">{{ abs($item['selisih']) }}</td>
+                                    <td class="py-2 px-4 border">{{ number_format($item['berat_total'], 2, ',', '.') }} Gr</td>
+                                    <td class="py-2 px-4 border">Rp {{ number_format($item['harga_total'], 2, ',', '.') }}</td>
                                 </tr>
                                 @empty
                                 <tr>
@@ -97,6 +101,7 @@
                         <tr class="text-left bg-gray-200">
                             <th class="py-2 px-4 border">No</th>
                             <th class="py-2 px-4 border">Item</th>
+                            <th class="py-2 px-4 border">Tanggal</th>
                             <th class="py-2 px-4 border">Nama Barang</th>
                             <th class="py-2 px-4 border">Kadar</th>
                             <th class="py-2 px-4 border">Berat</th>
@@ -116,6 +121,7 @@
                             <tr>
                                 <td class="py-2 px-4 border">{{ ($penjualansRaw->currentPage() - 1) * $penjualansRaw->perPage() + $loop->iteration }}</td>
                                 <td class="py-2 px-4 border">{{ $item['item'] ?? '-' }}</td>
+                                <td class="py-2 px-4 border">{{ $item['tanggal'] ?? '-' }}</td>
                                 <td class="py-2 px-4 border">{{ $item['nama_barang'] ?? '-' }}</td>
                                 <td class="py-2 px-4 border">{{ $item['kadar'] ?? '-' }}%</td>
                                 <td class="py-2 px-4 border">{{ $item['berat'] ?? '0.000' }} Gr</td>
@@ -173,8 +179,8 @@
                     <tfoot>
                         <tr class="bg-yellow-100 font-semibold">
                             <td colspan="4" class="py-2 px-4 italic border">Jumlah</td>
-                            <td class="py-2 px-4 text-purple-600 border">{{ number_format($penjualans->sum('berat') ?? 0, 3) }} Gr</td>
-                            <td colspan="3" class="py-2 px-4 text-purple-600 border">Rp. {{ number_format($penjualans->sum('harga') ?? 0, 0, ',', '.') }}</td>
+                            <td colspan="2" class="py-2 px-4 text-purple-600 border">Berat Total: {{ number_format($penjualans->sum('berat') ?? 0, 3) }} Gr</td>
+                            <td colspan="3" class="py-2 px-4 text-purple-600 border">Harga Total: Rp. {{ number_format($penjualans->sum('harga') ?? 0, 0, ',', '.') }}</td>
                             <td colspan="5" class="py-2 px-4 text-purple-600 border">
                                 Rata / Gram: Rp. {{ number_format($penjualans->avg('pergram_beli') ?? 0, 0, ',', '.') }}
                             </td>
@@ -211,6 +217,7 @@
                                 <th class="py-2 px-4">Item</th>
                                 <th class="py-2 px-4">Jumlah</th>
                                 <th class="py-2 px-4">Berat</th>
+                                <th class="py-2 px-4">Harga Stock</th>
                                 <th class="py-2 px-4">Kode</th>
                             </tr>
                         </thead>
@@ -223,6 +230,7 @@
                                     <td class="py-2 px-4">{{ $stock->produk->nama ?? $stock->nama }}</td>
                                     <td class="py-2 px-4">{{ $stock->jumlah }}</td>
                                     <td class="py-2 px-4">{{ $stock->berat_bersih }}</td>
+                                    <td class="py-2 px-4">Rp. {{ number_format($stock->pergram, 0, ',', '.') }}</td>
                                     <td class="py-2 px-4">{{ $stock->kode }}</td>
                                 </tr>
                             @endforeach

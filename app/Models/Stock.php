@@ -19,6 +19,7 @@ class Stock extends Model
         'pergram',
         'rusak', 
         'real',
+        'kadar',
     ];
 
     public function perhiasan() {

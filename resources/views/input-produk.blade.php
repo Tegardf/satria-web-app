@@ -63,6 +63,7 @@
                                     <th class="border p-2">Nama Barang</th>
                                     <th class="border p-2">Tanggal</th>
                                     <th class="border p-2">Jumlah</th>
+                                    <th class="border p-2">Kadar</th>
                                     <th class="border p-2">Berat Kotor</th>
                                     <th class="border p-2">Berat Bersih</th>
                                     <th class="border p-2">Berat Kitir</th>
@@ -85,9 +86,10 @@
                                             <td class="border p-2">{{ $stock->nama }}</td>
                                             <td class="border p-2">{{ $stock->tanggal }}</td>
                                             <td class="border p-2">{{ $stock->jumlah }}</td>
-                                            <td class="border p-2">{{ $stock->berat_kotor }}</td>
-                                            <td class="border p-2">{{ $stock->berat_bersih }}</td>
-                                            <td class="border p-2">{{ $stock->berat_kitir }}</td>
+                                            <td class="border p-2">{{ $stock->kadar }}%</td>
+                                            <td class="border p-2">{{ $stock->berat_kotor }} Gr</td>
+                                            <td class="border p-2">{{ $stock->berat_bersih }} Gr</td>
+                                            <td class="border p-2">{{ $stock->berat_kitir }} Gr</td>
                                             <td class="border p-2">Rp. {{ number_format($stock->pergram, 0, ',', '.') }}</td>
                                             <td class="border p-2">{{ $stock->real }}</td>
                                             <td class="border p-2">{{ $stock->rusak }}</td>
@@ -100,6 +102,7 @@
                                                     data-nama="{{ $stock->nama }}"
                                                     data-tanggal="{{ $stock->tanggal }}"
                                                     data-jumlah="{{ $stock->jumlah }}"
+                                                    data-kadar="{{ $stock->kadar }}"
                                                     data-berat-kotor="{{ $stock->berat_kotor }}"
                                                     data-berat-bersih="{{ $stock->berat_bersih }}"
                                                     data-berat-kitir="{{ $stock->berat_kitir }}"
@@ -167,6 +170,7 @@
                                     <div><input type="text" name="nama" placeholder="Nama" class="w-full border rounded"></div>
                                     <div><input type="date" name="tanggal" class="w-full border rounded"></div>
                                     <div><input type="number" name="jumlah" placeholder="Jumlah" class="w-full border rounded"></div>
+                                    <div><input type="number" step="0.01" name="kadar" placeholder="Kadar (%)" class="w-full border rounded"></div>
                                     <div><input type="number" step="0.001" name="berat_kotor" placeholder="Berat Kotor" class="w-full border rounded"></div>
                                     <div><input type="number" step="0.001" name="berat_bersih" placeholder="Berat Bersih" class="w-full border rounded"></div>
                                     <div><input type="number" step="0.001" name="berat_kitir" placeholder="Berat Kitir" class="w-full border rounded"></div>
@@ -199,6 +203,9 @@
 
                                 <label>Jumlah:</label>
                                 <input type="number" id="editJumlah" name="jumlah" class="w-full mb-2 p-2 border rounded" required>
+
+                                <label>Kadar (%):</label>
+                                <input type="number" step="0.01" id="editKadar" name="kadar" class="w-full mb-2 p-2 border rounded" required>
 
                                 <label>Berat Kotor:</label>
                                 <input id="editBeratKotor" name="berat_kotor" class="w-full mb-2 p-2 border rounded" required>
@@ -241,6 +248,7 @@
             document.getElementById('editNama').value = data.nama;
             document.getElementById('editTanggal').value = data.tanggal;
             document.getElementById('editJumlah').value = data.jumlah;
+            document.getElementById('editKadar').value = data.kadar;
             document.getElementById('editBeratKotor').value = data.beratKotor;
             document.getElementById('editBeratBersih').value = data.beratBersih;
             document.getElementById('editBeratKitir').value = data.beratKitir;
