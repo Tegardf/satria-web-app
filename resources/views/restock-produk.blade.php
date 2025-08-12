@@ -91,7 +91,7 @@
                                 <input type="number" step="0.01" name="berat" placeholder="Berat" class="border p-2 rounded" required>
                                 <input type="text" name="ukuran" placeholder="Ukuran" class="border p-2 rounded" required>
                                 <input type="number" step="0.01" name="kadar" placeholder="Kadar (%)" class="border p-2 rounded" required>
-                                <input type="number" step="0.01" name="jumlah" placeholder="Jumlah (Gr)" class="border p-2 rounded" required>
+                                <input type="number" step="0.01" name="jumlah" placeholder="Jumlah (biji)" class="border p-2 rounded" required>
                             </div>
                             <div class="mt-4 flex justify-end">
                                 <button type="button" onclick="closeModalRestock('{{ Str::slug($groupname) }}')" class="mr-2 px-4 py-2 border rounded">Batal</button>

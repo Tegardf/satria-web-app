@@ -374,9 +374,7 @@
             <h2 class="text-lg font-bold mb-4">Tambah Pricelist</h2>
             <form action="{{ route('perhiasan.tua.ringkasan.pricelist.store') }}" method="POST">
                 @csrf
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="number" name="id_perhiasan" class="w-full border px-3 py-2 rounded hidden" value=1 required>
-                    
+                <div class="grid grid-cols-2 gap-4">                    
                     <div>
                         <label class="block text-sm">Kadar</label>
                         <input type="number" name="kadar" class="w-full border px-3 py-2 rounded" required>

@@ -190,42 +190,67 @@
                                 @csrf
                                 @method('PUT')
 
-                                <input type="hidden" id="editId" name="id">
+                                <div class="grid grid-cols-2 gap-4">
 
-                                <label>Kode:</label>
-                                <input id="editKode" name="kode" class="w-full mb-2 p-2 border rounded" required>
+                                    <input type="hidden" id="editId" name="id">
 
-                                <label>Nama:</label>
-                                <input id="editNama" name="nama" class="w-full mb-2 p-2 border rounded" required>
+                                    <div>
+                                        <label>Kode:</label>
+                                        <input id="editKode" name="kode" class="w-full p-2 border rounded" required>
+                                    </div>
 
-                                <label>Tanggal:</label>
-                                <input type="date" id="editTanggal" name="tanggal" class="w-full mb-2 p-2 border rounded" required>
+                                    <div>
+                                        <label>Nama:</label>
+                                        <input id="editNama" name="nama" class="w-full p-2 border rounded" required>
+                                    </div>
 
-                                <label>Jumlah:</label>
-                                <input type="number" id="editJumlah" name="jumlah" class="w-full mb-2 p-2 border rounded" required>
+                                    <div>
+                                        <label>Tanggal:</label>
+                                        <input type="date" id="editTanggal" name="tanggal" class="w-full p-2 border rounded" required>
+                                    </div>
 
-                                <label>Kadar (%):</label>
-                                <input type="number" step="0.01" id="editKadar" name="kadar" class="w-full mb-2 p-2 border rounded" required>
+                                    <div>
+                                        <label>Jumlah:</label>
+                                        <input type="number" id="editJumlah" name="jumlah" class="w-full p-2 border rounded" required>
+                                    </div>
 
-                                <label>Berat Kotor:</label>
-                                <input id="editBeratKotor" name="berat_kotor" class="w-full mb-2 p-2 border rounded" required>
+                                    <div>
+                                        <label>Kadar (%):</label>
+                                        <input type="number" step="0.01" id="editKadar" name="kadar" class="w-full p-2 border rounded" required>
+                                    </div>
 
-                                <label>Berat Bersih:</label>
-                                <input id="editBeratBersih" name="berat_bersih" class="w-full mb-2 p-2 border rounded" required>
+                                    <div>
+                                        <label>Berat Kotor:</label>
+                                        <input id="editBeratKotor" name="berat_kotor" class="w-full p-2 border rounded" required>
+                                    </div>
 
-                                <label>Berat Kitir:</label>
-                                <input id="editBeratKitir" name="berat_kitir" class="w-full mb-4 p-2 border rounded" required>
+                                    <div>
+                                        <label>Berat Bersih:</label>
+                                        <input id="editBeratBersih" name="berat_bersih" class="w-full p-2 border rounded" required>
+                                    </div>
 
-                                <label>Per Gram:</label>
-                                <input type="number" step="0.001" id="editPerGram" name="pergram" class="w-full mb-2 p-2 border rounded" required>
+                                    <div>
+                                        <label>Berat Kitir:</label>
+                                        <input id="editBeratKitir" name="berat_kitir" class="w-full  p-2 border rounded" required>
+                                    </div>
 
-                                <label>Real:</label>
-                                <input type="number" step="0.001" id="editReal" name="real" class="w-full mb-4 p-2 border rounded" required>
+                                    <div>
+                                        <label>Per Gram:</label>
+                                        <input type="number" step="0.001" id="editPerGram" name="pergram" class="w-full p-2 border rounded" required>
+                                    </div>
 
-                                <label>Rusak:</label>
-                                <input type="number" id="editStatus" name="rusak" class="w-full mb-4 p-2 border rounded" required>
+                                    <div>
+                                        <label>Real:</label>
+                                        <input type="number" step="0.001" id="editReal" name="real" class="w-full  p-2 border rounded" required>
+                                    </div>
 
-                                <div class="flex justify-end space-x-2">
+                                    <div>
+                                        <label>Rusak:</label>
+                                        <input type="number" id="editStatus" name="rusak" class="w-full  p-2 border rounded" required>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-end space-x-2 w-full">
                                     <button type="button" onclick="closeModal()" class="bg-gray-400 px-4 py-2 text-white rounded">Cancel</button>
                                     <button type="submit" class="bg-blue-600 px-4 py-2 text-white rounded">Update</button>
                                 </div>

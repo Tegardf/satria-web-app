@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('pricelists', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_perhiasan')->constrained('perhiasans')->onDelete('cascade');
             $table->integer('kadar');
             $table->decimal('harga_min', 15, 2);
             $table->decimal('harga_max', 15, 2);

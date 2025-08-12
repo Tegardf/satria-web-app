@@ -24,18 +24,12 @@ class PricelistSeeder extends Seeder
             ['kadar' => 16, 'harga_min' => 800000,  'harga_max' => 900000],
             ['kadar' => 14, 'harga_min' => 750000,  'harga_max' => 850000],
         ];
-
-        $perhiasanIds = Perhiasan::pluck('id');
-
-        foreach ($perhiasanIds as $perhiasanId) {
-            foreach ($kadarList as $item) {
+        foreach ($kadarList as $item) {
             Pricelists::create([
-                'id_perhiasan' => $perhiasanId,
                 'kadar' => $item['kadar'],
                 'harga_min' => $item['harga_min'],
                 'harga_max' => $item['harga_max'],
             ]);
-            }
         }
     }
 }

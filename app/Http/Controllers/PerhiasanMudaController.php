@@ -382,11 +382,7 @@ class PerhiasanMudaController extends Controller
         ];
 
         $penjualanLain = Penjualan_lain::latest()->paginate(10);
-        $pricelists = Pricelists::with('perhiasan')
-            ->whereHas('perhiasan', function ($query) {
-            $query->where('jenis', 'Perhiasan Muda');
-            })
-            ->get();
+        $pricelists = Pricelists::orderBy('kadar', 'desc')->get();
 
         $totalPembelian = Pembelian::selectRaw('SUM(pergram_beli * berat) as total')->value('total') ?? 0;
 
@@ -471,7 +467,6 @@ class PerhiasanMudaController extends Controller
 
     public function ringkasanPricelistStore(Request $request) {
         $request->validate([
-            'id_perhiasan' => 'required|exists:perhiasans,id',
             'kadar' => 'required|numeric',
             'harga_min' => 'required|numeric|min:0',
             'harga_max' => 'required|numeric|min:0',

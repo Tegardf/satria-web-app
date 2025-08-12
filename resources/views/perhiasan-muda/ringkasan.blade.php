@@ -394,7 +394,6 @@
             <form action="{{ route('perhiasan.muda.ringkasan.pricelist.store') }}" method="POST">
                 @csrf
                 <div class="grid grid-cols-2 gap-4">
-                    <input type="number" name="id_perhiasan" class="hidden" value=2>
                     <div>
                         <label class="block text-sm">Kadar</label>
                         <input type="number" name="kadar" class="w-full border px-3 py-2 rounded" required>

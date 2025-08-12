@@ -383,11 +383,8 @@ class PerhiasanTuaController extends Controller
         ];
 
         $penjualanLain = Penjualan_lain::latest()->paginate(10);
-        $pricelists = Pricelists::with('perhiasan')
-            ->whereHas('perhiasan', function ($query) {
-            $query->where('jenis', 'Perhiasan Tua');
-            })
-            ->get();
+        $pricelists = Pricelists::orderBy('kadar', 'desc')->get();
+
 
         $totalPembelian = Pembelian::selectRaw('SUM(pergram_beli * berat) as total')->value('total') ?? 0;
 
