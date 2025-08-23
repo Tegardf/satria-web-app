@@ -170,7 +170,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="13" class="text-center text-gray-500 py-4 border">Data Unavailable</td>
+                                <td colspan="14" class="text-center text-gray-500 py-4">Data Unavailable</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -208,7 +208,11 @@
             <h2 class="text-lg font-bold mb-4">Tambah Penjualan</h2>
             <form action="{{ route('perhiasan.tua.penjualan.store') }}" method="POST">
                 @csrf
-                <div class="overflow-y-auto max-h-64 border rounded mb-4">
+                <div class="mb-2  flex justify-end">
+                    <input type="text" id="searchInput" placeholder="Cari Kode..." 
+                        class="border rounded px-3 py-2 w-1/3" onkeyup="filterTable()">
+                </div>
+                <div class="overflow-y-auto h-64 border rounded mb-4">
                     <table class="table-auto w-full text-sm">
                         <thead class="bg-gray-100 font-semibold">
                             <tr>
@@ -220,7 +224,7 @@
                                 <th class="py-2 px-4">Kode</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="stocksTable">
                             @foreach ($stocksNormal as $stock)
                                 <tr class="border-t">
                                     <td class="py-2 px-4">
@@ -358,6 +362,20 @@
 
             // Show modal
             document.getElementById('editModalPenjualanTua').classList.remove('hidden');
+        }
+        function filterTable() {
+            let input = document.getElementById("searchInput").value.toUpperCase();
+            let rows = document.querySelectorAll("#stocksTable tr");
+
+            rows.forEach(rows => {
+                let kodeCell = rows.querySelectorAll("td")[5];
+                if (kodeCell) {
+                    if (kodeCell) {
+                        let kode = kodeCell.textContent || kodeCell.innerText;
+                        rows.style.display = kode.toUpperCase().includes(input) ? "" : "none";
+                    }
+                }
+            });
         }
 
         function closeEditModalPenjualan() {
